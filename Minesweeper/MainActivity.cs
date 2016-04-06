@@ -45,7 +45,7 @@ namespace Minesweeper
             gridView = FindViewById<GridView>(Resource.Id.gridView1);
             btnNewGame = FindViewById<Button>(Resource.Id.button1);
 
-            gridView.NumColumns = 8;
+            gridView.NumColumns = 10;
             gridView.Adapter = new MinesweeperAdapter(this, sweeper);
 
             btnNewGame.Click += BtnNewGame_Click;
