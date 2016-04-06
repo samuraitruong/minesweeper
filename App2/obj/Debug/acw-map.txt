@@ -1,8 +1,0 @@
-Minesweeper.MainActivity, Minesweeper;md5f83ac8242fa355072ddb0b918abced57.MainActivity
-Minesweeper.MainActivity, Minesweeper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5f83ac8242fa355072ddb0b918abced57.MainActivity
-Minesweeper.MainActivity;md5f83ac8242fa355072ddb0b918abced57.MainActivity
-minesweeper.MainActivity;md5f83ac8242fa355072ddb0b918abced57.MainActivity
-Minesweeper.MinesweeperAdapter, Minesweeper;md5f83ac8242fa355072ddb0b918abced57.MinesweeperAdapter
-Minesweeper.MinesweeperAdapter, Minesweeper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5f83ac8242fa355072ddb0b918abced57.MinesweeperAdapter
-Minesweeper.MinesweeperAdapter;md5f83ac8242fa355072ddb0b918abced57.MinesweeperAdapter
-minesweeper.MinesweeperAdapter;md5f83ac8242fa355072ddb0b918abced57.MinesweeperAdapter
