@@ -32,23 +32,33 @@ namespace Minesweeper
                 alert.Show();
             });
         }
-
+        private int ConvertPixelsToDp(float pixelValue)
+        {
+            var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
+            return dp;
+        }
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            var metrics = Resources.DisplayMetrics;
+            var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+            var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
             sweeper.NewGame();
             gridView = FindViewById<GridView>(Resource.Id.gridView1);
-            btnNewGame = FindViewById<Button>(Resource.Id.button1);
+            //btnNewGame = FindViewById<Button>(Resource.Id.button1);
+
+            int colWidth = metrics.WidthPixels / 10;
 
             gridView.NumColumns = 10;
-            gridView.Adapter = new MinesweeperAdapter(this, sweeper);
+            gridView.Adapter = new MinesweeperAdapter(this, sweeper, colWidth);
 
-            btnNewGame.Click += BtnNewGame_Click;
+            //btnNewGame.Click += BtnNewGame_Click;
             gridView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
                 if (sweeper.IsEndGame) return;

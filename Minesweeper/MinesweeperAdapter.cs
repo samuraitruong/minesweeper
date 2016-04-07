@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Android.Content.Res;
 
 namespace Minesweeper
 {
@@ -16,17 +17,20 @@ namespace Minesweeper
     {
         private readonly Context context;
         private readonly Minesweeper sweeper;
-
-        
+        private int cellWidth = 0;
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+
+          
+            var g = parent as Android.Widget.GridView;
+            var w = g.Width / g.NumColumns;
             ImageView imageView;
 
             if (convertView == null)
             {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(context);
-                imageView.LayoutParameters = new AbsListView.LayoutParams(24, 24);
+                imageView.LayoutParameters = new AbsListView.LayoutParams(cellWidth, cellWidth);
                 imageView.SetScaleType(ImageView.ScaleType.CenterCrop);
                 //imageView.SetPadding(1, 1, 1, 1);
                 imageView.Tag = this.GetItem(position);
@@ -39,9 +43,10 @@ namespace Minesweeper
             return imageView;
         }
 
-        public MinesweeperAdapter(Context c, Minesweeper sweeper)
+        public MinesweeperAdapter(Context c, Minesweeper sweeper, int cellWidth)
         {
             context = c;
+            this.cellWidth = cellWidth;
             this.sweeper = sweeper;
         }
 
