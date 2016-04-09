@@ -20,8 +20,6 @@ namespace Minesweeper
         private int cellWidth = 0;
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-
-          
             var g = parent as Android.Widget.GridView;
             var w = g.Width / g.NumColumns;
             ImageView imageView;

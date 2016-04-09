@@ -79,8 +79,8 @@ namespace Minesweeper
         }
         public MinePlace Flag(int position)
         {
-            var r = position / this.row;
-            var c = position - (r * this.row);
+            var r = position / this.col;
+            var c = position - (r * this.col);
             var data =  minePlaces[r, c];
             data.Flagged = true;
             minePlaces[r, c] = data;
@@ -89,6 +89,13 @@ namespace Minesweeper
         public int TotalCell()
         {
             return row * col;
+        }
+        public MinePlace MineAt(int position)
+        {
+            var r = position / this.col;
+            var c = position - (r * this.col);
+            var data = minePlaces[r, c];
+            return data;
         }
         public void CalcMinesArround()
         {
@@ -125,7 +132,7 @@ namespace Minesweeper
             {
                 for (int j = 0; j < col; j++)
                 {
-                    callback(i * row+ j, this.minePlaces[i, j]);
+                    callback(i * col+ j, this.minePlaces[i, j]);
                 }
             }
         }
@@ -135,8 +142,8 @@ namespace Minesweeper
         }
         public void Open(int pos, Action<int, MinePlace> callback)
         {
-            var startX = pos / this.row;
-            var startY = pos - startX * this.row;
+            var startX = pos / this.col;
+            var startY = pos - startX * this.col;
 
             this.Open(startX, startY, callback, true);
         }
@@ -152,12 +159,12 @@ namespace Minesweeper
             {
                 this.IsEndGame = true;
                 data.DeadPoint = true;
-                callback(x * this.row + y, data);
+                callback(x * this.col + y, data);
                 minePlaces[x, y] = data;
                 return;
             }
 
-            callback(x * this.row +y, data);
+            callback(x * this.col +y, data);
             minePlaces[x, y] = data;
 
             if (data.ArroundMines == 0 && !data.HasMine)
@@ -175,5 +182,8 @@ namespace Minesweeper
                 Open(x+1, y , callback, false);
             } 
         }
+
+        internal bool IsDeadPoint(int position) => MineAt(position).DeadPoint;
+        
     }
 }

@@ -7,37 +7,83 @@ using Android.Widget;
 using Android.OS;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Support.V7.App;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using System.Diagnostics;
 
 namespace Minesweeper
 {
-    [Activity(Label = "Minesweeper Xamarin", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon")]
+    public class MainActivity : AppCompatActivity
     {
-        Minesweeper sweeper = new Minesweeper(10, 10, 24);
-        Button btnNewGame = null;
+        int bestRecord = int.MaxValue;
+
+        Minesweeper sweeper = new Minesweeper(13, 10, 6);
         GridView gridView = null;
-
-        public void ShowAlert(string str)
+        IMenu mainMenu = null;
+        IMenuItem mnuStatus = null;
+        Stopwatch watcher = new Stopwatch();
+        public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.SetTitle(str);
-            alert.SetPositiveButton("OK", (senderAlert, args) =>
-            {
-                // write your own set of instructions
-            });
-
-            //run the alert in UI thread to display in the screen
-            RunOnUiThread(() =>
-            {
-                alert.Show();
-            });
+            MenuInflater.Inflate(Resource.Menu.main, menu);
+            base.OnCreateOptionsMenu(menu);
+            this.mainMenu = menu;
+            return true;
         }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.gameStatus:
+                    this.startNewGame();
+                    break;
+                default:
+                    throw new Exception("Menu item not support !");
+                    break;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            this.mnuStatus = menu.FindItem(Resource.Id.gameStatus);
+            return base.OnPrepareOptionsMenu(menu);
+        }
+        //public void DisplayFlagCount(int count)
+        //{
+        //    Bitmap bitmap = Bitmap.CreateBitmap(64, 64, Bitmap.Config.Argb8888);
+            
+        //    Canvas canvas = new Canvas(bitmap);
+        //    Paint green = new Paint
+        //    {
+        //        //AntiAlias = true,
+        //        TextSize = 100,
+        //        Color = Color.White
+        //    };
+        //    //green.TextSize = 18.0f;
+        //    green.SetStyle(Paint.Style.FillAndStroke);
+
+        //    //paint.setTextSize(testTextSize);
+        //    //Rect bounds = new Rect();
+        //    //green.GetTextBounds(count.ToString(), 0, count.ToString().Length, bounds);
+
+        //    //float desiredTextSize = 40f * 40  / bounds.Width();
+
+        //    //// Set the paint for that size.
+        //    //green.TextSize = desiredTextSize;
+
+            
+        //    float middle = canvas.Width * 0.25f;
+        //    canvas.DrawText(count.ToString(), -40 ,60, green);
+        //    var mnu = this.mainMenu?.FindItem(Resource.Id.flagedCount);
+        //    mnu?.SetIcon(new BitmapDrawable(bitmap));
+        //    //mnu?.SetTitle(count.ToString());
+        //}
         private int ConvertPixelsToDp(float pixelValue)
         {
             var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
             return dp;
         }
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -45,13 +91,18 @@ namespace Minesweeper
             var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
             var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
 
-
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
             sweeper.NewGame();
             gridView = FindViewById<GridView>(Resource.Id.gridView1);
             //btnNewGame = FindViewById<Button>(Resource.Id.button1);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            toolbar.MenuItemClick += Toolbar_MenuItemClick;
+               
+            SetSupportActionBar(toolbar);
+            SupportActionBar.SetLogo(Resource.Drawable.icon32x32);
+            SupportActionBar.Title = GetText(Resource.String.ApplicationName);
 
             int colWidth = metrics.WidthPixels / 10;
 
@@ -63,22 +114,51 @@ namespace Minesweeper
             {
                 if (sweeper.IsEndGame) return;
 
+                if (!watcher.IsRunning)
+                {
+                    watcher.Start();
+                    //change emotion 
+                    SetSmileIcon(Resource.Drawable.smiley_worrying);
+
+                }
+
                 var imageView = args.View as ImageView;
 
                 this.sweeper.Open(args.Position, (pos, data) =>
                 {
                     this.UpdateMinePlace(pos, data, gridView);
                 });
-
-                if(sweeper.IsWin())
+                if (sweeper.IsDeadPoint(args.Position))
                 {
-                    ShowMessage("You Won", "the message here", gridView);
+                    this.ShowMessage("You dead!!!", "lose message here", gridView);
+                    this.SetSmileIcon(Resource.Drawable.smiley_angry);
+                    RevealMineField();
+                }
+                else {
+                    if (sweeper.IsWin())
+                    {
+                        watcher.Stop();
+                        int sec = (int)watcher.ElapsedMilliseconds / 1000;
+                        bestRecord = Math.Min(sec, bestRecord);
+                        SetSmileIcon(Resource.Drawable.smiley_happy);
+                        RevealMineField();
+                        ShowMessage("You Won", $"Your record : {sec} seconds\n Your best record: {bestRecord}", gridView);
+                    }
                 }
                 Toast.MakeText(this, args.Position.ToString(), ToastLength.Short).Show();
             };
             gridView.LongClickable = true;
-            
             gridView.ItemLongClick += Gridview_ItemLongClick;
+        }
+
+        private void Toolbar_MenuItemClick(object sender, Toolbar.MenuItemClickEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetSmileIcon(int resourceId)
+        {
+            this.mnuStatus?.SetIcon(resourceId);
         }
 
         private void BtnNewGame_Click(object sender, EventArgs e)
@@ -89,28 +169,42 @@ namespace Minesweeper
         private void startNewGame()
         {
             sweeper.NewGame();
+            SetSmileIcon(Resource.Drawable.smiley_waiting);
+            if (watcher.IsRunning) watcher.Reset();
+            else
+            {
+                watcher.Start();
+            }
             sweeper.Visit((pos, data) =>
             {
-                var imgView = gridView.GetChildAt(pos) as ImageView;
-                imgView.SetImageResource(Resource.Drawable.tile);
+                SetTileImage(pos, gridView, "tile");
             });
         }
 
-        private void UpdateMinePlace(int pos, MinePlace data, GridView gridView)
+        private void UpdateMinePlace(int pos, MinePlace data, GridView gridView, bool endGame=false)
         {
             var img = "m" + (data.ArroundMines > 0 ? data.ArroundMines.ToString() : "");
 
-            if (data.Flagged)
-            {
-                img = "flag";
-
-            }
-
             if (data.HasMine)
             {
-                img = "boom";
-                //show all mine field..
+                img = "mine_normal";
             }
+
+            if (data.Flagged )
+            {
+                img = endGame?  "mine_flagged": "flag";
+            }
+            
+
+            if(data.DeadPoint)
+            {
+                img = "mine_explosion";
+            }
+            SetTileImage(pos, gridView, img);
+        }
+
+        private void SetTileImage(int pos, GridView gridView, string img)
+        {
             var drawableImage = Resources.GetDrawable(Resources.GetIdentifier(img, "drawable", PackageName));
             var bitmap = (drawableImage as BitmapDrawable).Bitmap;
             if (bitmap != null)
@@ -118,14 +212,14 @@ namespace Minesweeper
                 var imgView = gridView.GetChildAt(pos) as ImageView;
                 imgView.SetImageBitmap(bitmap);
             }
-
-            if (data.HasMine && !data.Flagged)
-            {
-                this.ShowMessage("You dead!!!", "lose message here",gridView);
-            }
         }
-
-
+        public void RevealMineField()
+        {
+            this.sweeper.Visit((position, data) =>
+            {
+                UpdateMinePlace(position, data, this.gridView, true);
+            });
+        }
         void ShowMessage(string title, string message, GridView grid)
         {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -144,22 +238,16 @@ namespace Minesweeper
 
             Dialog dialog = alert.Create();
             dialog.Show();
-
         }
-
 
         private void Gridview_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs args)
         {
             var imageView = args.View as ImageView;
-
-            imageView.SetImageResource(Resource.Drawable.Icon);
+            //imageView.SetImageResource(Resource.Drawable);
             var data = sweeper.Flag(args.Position);
-
             UpdateMinePlace(args.Position, data, sender as GridView);
             Toast.MakeText(this, "Flagged!!!", ToastLength.Short).Show();
         }
-
-
     }
 }
 
