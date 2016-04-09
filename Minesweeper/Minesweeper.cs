@@ -28,6 +28,8 @@ namespace Minesweeper
         private int mines;
         
         public bool IsEndGame { get; set; }
+        public int Columns { get { return this.col; } }
+
         public void GenereteMines()
         {
 

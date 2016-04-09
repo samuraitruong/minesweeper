@@ -1485,53 +1485,56 @@ namespace Minesweeper
 			// aapt resource value: 0x7f02005b
 			public const int mine_normal = 2130837595;
 			
-			// aapt resource value: 0x7f02006b
-			public const int notification_template_icon_bg = 2130837611;
+			// aapt resource value: 0x7f02006c
+			public const int notification_template_icon_bg = 2130837612;
 			
 			// aapt resource value: 0x7f02005c
 			public const int sample = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int setting = 2130837597;
+			public const int save = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int smiley = 2130837598;
+			public const int setting = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int smiley1 = 2130837599;
+			public const int smiley = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int smiley2 = 2130837600;
+			public const int smiley1 = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int smiley3 = 2130837601;
+			public const int smiley2 = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int smiley_angry = 2130837602;
+			public const int smiley3 = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int smiley_happy = 2130837603;
+			public const int smiley_angry = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int smiley_waiting = 2130837604;
+			public const int smiley_happy = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int smiley_worrying = 2130837605;
+			public const int smiley_waiting = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int test = 2130837606;
+			public const int smiley_worrying = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int tile = 2130837607;
+			public const int test = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int tile2 = 2130837608;
+			public const int tile = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int tile3 = 2130837609;
+			public const int tile2 = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int tile4 = 2130837610;
+			public const int tile3 = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int tile4 = 2130837611;
 			
 			static Drawable()
 			{
@@ -1651,8 +1654,8 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0038
 			public const int expanded_menu = 2131427384;
 			
-			// aapt resource value: 0x7f0b005f
-			public const int gameStatus = 2131427423;
+			// aapt resource value: 0x7f0b006f
+			public const int gameStatus = 2131427439;
 			
 			// aapt resource value: 0x7f0b0051
 			public const int gridView1 = 2131427409;
@@ -1690,14 +1693,17 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0055
 			public const int media_actions = 2131427413;
 			
-			// aapt resource value: 0x7f0b0060
-			public const int miProfile = 2131427424;
+			// aapt resource value: 0x7f0b0070
+			public const int miProfile = 2131427440;
 			
-			// aapt resource value: 0x7f0b0061
-			public const int miSetting = 2131427425;
+			// aapt resource value: 0x7f0b0071
+			public const int miSetting = 2131427441;
 			
 			// aapt resource value: 0x7f0b001b
 			public const int middle = 2131427355;
+			
+			// aapt resource value: 0x7f0b0072
+			public const int mnuSaveSetting = 2131427442;
 			
 			// aapt resource value: 0x7f0b0014
 			public const int multiply = 2131427348;
@@ -1722,6 +1728,27 @@ namespace Minesweeper
 			
 			// aapt resource value: 0x7f0b003b
 			public const int radio = 2131427387;
+			
+			// aapt resource value: 0x7f0b0060
+			public const int radioButton1 = 2131427424;
+			
+			// aapt resource value: 0x7f0b0061
+			public const int radioButton2 = 2131427425;
+			
+			// aapt resource value: 0x7f0b0062
+			public const int radioButton3 = 2131427426;
+			
+			// aapt resource value: 0x7f0b0063
+			public const int radioButton4 = 2131427427;
+			
+			// aapt resource value: 0x7f0b0064
+			public const int radioButton5 = 2131427428;
+			
+			// aapt resource value: 0x7f0b0065
+			public const int radioButton6 = 2131427429;
+			
+			// aapt resource value: 0x7f0b005f
+			public const int radioGroup1 = 2131427423;
 			
 			// aapt resource value: 0x7f0b0015
 			public const int screen = 2131427349;
@@ -1765,6 +1792,9 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b004e
 			public const int search_voice_btn = 2131427406;
 			
+			// aapt resource value: 0x7f0b006e
+			public const int seekBar1 = 2131427438;
+			
 			// aapt resource value: 0x7f0b004f
 			public const int select_dialog_listview = 2131427407;
 			
@@ -1780,8 +1810,23 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0011
 			public const int showTitle = 2131427345;
 			
+			// aapt resource value: 0x7f0b0066
+			public const int space1 = 2131427430;
+			
+			// aapt resource value: 0x7f0b0069
+			public const int space2 = 2131427433;
+			
+			// aapt resource value: 0x7f0b006c
+			public const int space3 = 2131427436;
+			
 			// aapt resource value: 0x7f0b002c
 			public const int spacer = 2131427372;
+			
+			// aapt resource value: 0x7f0b006b
+			public const int spinnerCol = 2131427435;
+			
+			// aapt resource value: 0x7f0b0068
+			public const int spinnerRow = 2131427432;
 			
 			// aapt resource value: 0x7f0b0007
 			public const int split_action_bar = 2131427335;
@@ -1812,6 +1857,15 @@ namespace Minesweeper
 			
 			// aapt resource value: 0x7f0b0034
 			public const int textSpacerNoButtons = 2131427380;
+			
+			// aapt resource value: 0x7f0b0067
+			public const int textView1 = 2131427431;
+			
+			// aapt resource value: 0x7f0b006a
+			public const int textView2 = 2131427434;
+			
+			// aapt resource value: 0x7f0b006d
+			public const int textView3 = 2131427437;
 			
 			// aapt resource value: 0x7f0b0058
 			public const int time = 2131427416;
@@ -1993,10 +2047,13 @@ namespace Minesweeper
 			public const int select_dialog_singlechoice_material = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int support_simple_spinner_dropdown_item = 2130903077;
+			public const int Setting = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int Toolbar = 2130903078;
+			public const int support_simple_spinner_dropdown_item = 2130903078;
+			
+			// aapt resource value: 0x7f030027
+			public const int Toolbar = 2130903079;
 			
 			static Layout()
 			{
@@ -2013,6 +2070,9 @@ namespace Minesweeper
 			
 			// aapt resource value: 0x7f0c0000
 			public const int main = 2131492864;
+			
+			// aapt resource value: 0x7f0c0001
+			public const int Setting = 2131492865;
 			
 			static Menu()
 			{

@@ -11,6 +11,7 @@ using Android.Support.V7.App;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Diagnostics;
+using Android.Preferences;
 
 namespace Minesweeper
 {
@@ -24,6 +25,7 @@ namespace Minesweeper
         IMenu mainMenu = null;
         IMenuItem mnuStatus = null;
         Stopwatch watcher = new Stopwatch();
+        AppSetting settings = null;
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.main, menu);
@@ -38,12 +40,23 @@ namespace Minesweeper
                 case Resource.Id.gameStatus:
                     this.startNewGame();
                     break;
+                case Resource.Id.miSetting:
+                    this.OpenSettingScreen();
+                    break;
                 default:
                     throw new Exception("Menu item not support !");
                     break;
             }
             return base.OnOptionsItemSelected(item);
         }
+
+        private void OpenSettingScreen()
+        {
+            var intent = new Intent(this, typeof(SettingActivity));
+            //intent.PutStringArrayListExtra("phone_numbers", phoneNumbers);
+            StartActivity(intent);
+        }
+
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
             this.mnuStatus = menu.FindItem(Resource.Id.gameStatus);
@@ -84,9 +97,20 @@ namespace Minesweeper
             var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
             return dp;
         }
+        protected AppSetting LoadPreferences()
+        {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+            string xml = prefs.GetString("GAME_SETTING", string.Empty);
+
+            if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
+            return xml.DeserializeAsXml<AppSetting>();
+
+        }
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            this.settings = LoadPreferences();
+
             var metrics = Resources.DisplayMetrics;
             var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
             var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
@@ -94,9 +118,11 @@ namespace Minesweeper
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            MineSweeperFactory factory = new MineSweeperFactory();
+            sweeper = factory.Create(this.settings);
             sweeper.NewGame();
+
             gridView = FindViewById<GridView>(Resource.Id.gridView1);
-            //btnNewGame = FindViewById<Button>(Resource.Id.button1);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.MenuItemClick += Toolbar_MenuItemClick;
                
@@ -104,9 +130,9 @@ namespace Minesweeper
             SupportActionBar.SetLogo(Resource.Drawable.icon32x32);
             SupportActionBar.Title = GetText(Resource.String.ApplicationName);
 
-            int colWidth = metrics.WidthPixels / 10;
+            int colWidth = metrics.WidthPixels / sweeper.Columns;
 
-            gridView.NumColumns = 10;
+            gridView.NumColumns = sweeper.Columns;
             gridView.Adapter = new MinesweeperAdapter(this, sweeper, colWidth);
 
             //btnNewGame.Click += BtnNewGame_Click;
@@ -130,7 +156,7 @@ namespace Minesweeper
                 });
                 if (sweeper.IsDeadPoint(args.Position))
                 {
-                    this.ShowMessage("You dead!!!", "lose message here", gridView);
+                    this.ShowMessage("You dead !!!", "You was killed by an atomic bom. We couldn't find you body. please careful next time. Good luck", gridView);
                     this.SetSmileIcon(Resource.Drawable.smiley_angry);
                     RevealMineField();
                 }
@@ -145,7 +171,6 @@ namespace Minesweeper
                         ShowMessage("You Won", $"Your record : {sec} seconds\n Your best record: {bestRecord}", gridView);
                     }
                 }
-                Toast.MakeText(this, args.Position.ToString(), ToastLength.Short).Show();
             };
             gridView.LongClickable = true;
             gridView.ItemLongClick += Gridview_ItemLongClick;
