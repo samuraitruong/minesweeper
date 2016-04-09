@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+    android:id="@+id/gameStatus"
+    android:icon="@drawable/smiley_waiting"
+    app:showAsAction="ifRoom|withText"
+    android:title="Game">
+  </item>
+  
+  <!--<item
+    android:id="@+id/flagedCount"
+    android:icon="@drawable/test"
+    app:showAsAction="ifRoom|withText"
+    android:title="Profile">
+  </item>-->
+  
+  <item
+      android:id="@+id/miProfile"
+      android:icon="@drawable/flag_big"
+      app:showAsAction="ifRoom|withText"
+      android:title="Profile">
+  </item>
+
+  <item
+    android:id="@+id/miSetting"
+    android:icon="@drawable/setting"
+    app:showAsAction="ifRoom|withText"
+    android:title="Setting">
+  </item>
+
+  
+
+</menu>
