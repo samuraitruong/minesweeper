@@ -13,6 +13,7 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Diagnostics;
 using Android.Preferences;
+using static Minesweeper.AppManager;
 
 
 namespace Minesweeper
@@ -26,7 +27,7 @@ namespace Minesweeper
         TextView lblMines = null;
         RadioGroup radGroup = null;
         AppSetting settings = null;
-
+        TableLayout customSettingLayout = null;
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.Setting, menu);
@@ -46,8 +47,9 @@ namespace Minesweeper
             this.spinnerRow = (Spinner)FindViewById(Resource.Id.spinnerRow);
             this.spinnerCol = (Spinner)FindViewById(Resource.Id.spinnerCol);
             this.seekBarMines= (SeekBar)FindViewById(Resource.Id.seekBar1);
-            this.lblMines = FindViewById<TextView>(Resource.Id.textView3);
+            this.lblMines = FindViewById<TextView>(Resource.Id.textView4);
             this.radGroup = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
+            this.customSettingLayout = FindViewById<TableLayout>(Resource.Id.tableLayout1);
 
             InitSpinner(spinnerRow, 8, 35);
             InitSpinner(spinnerCol, 8, 35);
@@ -55,7 +57,20 @@ namespace Minesweeper
             this.spinnerRow.ItemSelected += SpinnerRow_ItemSelected;
             this.spinnerCol.ItemSelected += SpinnerRow_ItemSelected;
             this.seekBarMines.ProgressChanged += SeekBarMines_ProgressChanged;
+            this.radGroup.CheckedChange += RadGroup_CheckedChange;
             // Create your application here
+        }
+
+        private void RadGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+        {
+            if(this.radGroup.CheckedRadioButtonId!= Resource.Id.radCustomSetting)
+            {
+                this.customSettingLayout.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                this.customSettingLayout.Visibility = ViewStates.Visible;
+            }
         }
 
         private void SeekBarMines_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
@@ -66,7 +81,7 @@ namespace Minesweeper
         private void UpdateRiskRating()
         {
             var percent = (seekBarMines.Progress * 1.0f) / (seekBarMines.Max *2);
-            this.lblMines.Text = "Total mines :  " + string.Format(" {1}({0:p})", percent, seekBarMines.Progress);
+            this.lblMines.Text = string.Format("{1}({0:p})", percent, seekBarMines.Progress);
             if (percent <= 0.1)
             {
                 this.lblMines.SetTextColor(Color.Rgb(128, 223, 255));
@@ -114,11 +129,21 @@ namespace Minesweeper
             {
                 case Resource.Id.mnuSaveSetting:
                     this.settings = GetUserSettings();
-                    SaveSetting(settings);
+                    SaveSetting(settings, this);
                     GoBack();
                     break;
             }
             return base.OnOptionsItemSelected(item);
+
+        }
+
+        protected AppSetting LoadPreferences()
+        {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+            string xml = prefs.GetString("GAME_SETTING", string.Empty);
+
+            if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
+            return xml.DeserializeAsXml<AppSetting>();
 
         }
 
@@ -149,24 +174,14 @@ namespace Minesweeper
 
                 default:
                     currentSetting.Level = GameLevel.Custom;
+                    currentSetting.Rows = Convert.ToInt32(FindViewById<Spinner>(Resource.Id.spinnerRow).SelectedItem);
+                    currentSetting.Cols = Convert.ToInt32(FindViewById<Spinner>(Resource.Id.spinnerRow).SelectedItem);
+                    currentSetting.Mines = this.seekBarMines.Progress;
                     break;
             }
 
             return currentSetting;
         }
-
-        private void SaveSetting(AppSetting settings)
-        {
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
-            ISharedPreferencesEditor editor = prefs.Edit();
-            
-            editor.PutString("GAME_SETTING", settings.SerializeAsXml());
-            //editor.PutInt("SETTING_COL", 10);
-            //editor.PutInt("SETTING_MINE", 10);
-
-            editor.Apply();
-        }
-
         private void GoBack()
         {
             this.OnNavigateUp();

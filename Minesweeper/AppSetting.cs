@@ -25,7 +25,7 @@ namespace Minesweeper {
     [Serializable]
     public class AppSetting
     {
-        public int Rows { get; set; }
+        public int Rows { get; set; } 
         public int Cols { get; set; }
         public int Mines { get; set; }
         public GameLevel Level{ get; set; }

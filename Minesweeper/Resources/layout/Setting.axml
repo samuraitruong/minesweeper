@@ -12,84 +12,103 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/radioGroup1"
-        android:paddingLeft="30px">
+        android:paddingLeft="30px"
+        android:paddingTop="50px">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Easy  - 10% mines"
-            android:id="@+id/radioButton1" />
+            android:id="@+id/radioButton1"
+            android:textColor="@color/EasyColor" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Normal -20% mines"
-            android:id="@+id/radioButton2" />
+            android:id="@+id/radioButton2"
+            android:textColor="@color/NormalColor" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hard - 30% mines "
-            android:id="@+id/radioButton3" />
+            android:id="@+id/radioButton3"
+            android:textColor="@color/HardColor" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Very hard 40% mines"
-            android:id="@+id/radioButton4" />
-			<RadioButton
+            android:id="@+id/radioButton4"
+            android:textColor="@color/VeryHardColor" />
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Extreem hard 40% mines"
-            android:id="@+id/radioButton5" />
-			
+            android:text="Extreme hard 40% mines"
+            android:id="@+id/radioButton5"
+            android:textColor="@color/ExtremeColor" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Custom"
-            android:id="@+id/radioButton6" />
+            android:id="@+id/radCustomSetting" />
     </RadioGroup>
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/space1" />
-    <TextView
-        android:text="Rows"
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:paddingLeft="30px" />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerRow"
-        android:paddingLeft="30px" />
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/space2" />
-    <TextView
-        android:text="Columns"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:paddingLeft="30px" />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerCol"
-        android:paddingLeft="30px" />
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/space3" />
-    <TextView
-        android:text="Total Mines"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:paddingLeft="30px" />
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar1"
-        android:max="100"
-        android:progress="20" />
+        android:id="@+id/tableLayout1"
+        android:paddingLeft="35px"
+        android:visibility="invisible">
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:paddingTop="20px">
+            <TextView
+                android:text="Columns"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2" />
+            <Spinner
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerCol" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:paddingTop="20px">
+            <TextView
+                android:text="Rows"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1" />
+            <Spinner
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerRow" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:paddingTop="20px">
+            <TextView
+                android:text="Total Mines"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
+            <TextView
+                android:text="100"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:paddingLeft="20px" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:paddingTop="20px">
+            <SeekBar
+                android:id="@+id/seekBar1"
+                android:max="100"
+                android:progress="20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="2" />
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

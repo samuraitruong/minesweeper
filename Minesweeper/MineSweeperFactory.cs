@@ -30,6 +30,10 @@ namespace Minesweeper
                     return new Minesweeper(20, 15, 120);
                     break;
 
+                case GameLevel.Custom:
+                    return new Minesweeper(setting.Rows, setting.Cols, setting.Mines);
+                    break;
+
             }
             throw new Exception("Unknow game setting");
         }

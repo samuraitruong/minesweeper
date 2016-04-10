@@ -12,7 +12,7 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Diagnostics;
 using Android.Preferences;
-
+using static Minesweeper.AppManager;
 namespace Minesweeper
 {
     [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon")]
@@ -97,19 +97,10 @@ namespace Minesweeper
             var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
             return dp;
         }
-        protected AppSetting LoadPreferences()
-        {
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
-            string xml = prefs.GetString("GAME_SETTING", string.Empty);
-
-            if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
-            return xml.DeserializeAsXml<AppSetting>();
-
-        }
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            this.settings = LoadPreferences();
+            this.settings = LoadPreferences(this);
 
             var metrics = Resources.DisplayMetrics;
             var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
