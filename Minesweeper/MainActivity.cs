@@ -28,7 +28,7 @@ namespace Minesweeper
         AppSetting settings = null;
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.main, menu);
+            MenuInflater.Inflate(Resource.Menu.Main, menu);
             base.OnCreateOptionsMenu(menu);
             this.mainMenu = menu;
             return true;
@@ -210,11 +210,19 @@ namespace Minesweeper
             {
                 img = endGame?  "mine_flagged": "flag";
             }
+            if(data.Confused)
+            {
+                img = "confused";
+            }
             
 
             if(data.DeadPoint)
             {
                 img = "mine_explosion";
+            }
+            if(!data.Open && (!data.Flagged && !data.Confused))
+            {
+                img = "tile";
             }
             SetTileImage(pos, gridView, img);
         }
@@ -233,6 +241,7 @@ namespace Minesweeper
         {
             this.sweeper.Visit((position, data) =>
             {
+                data.Open = true;
                 UpdateMinePlace(position, data, this.gridView, true);
             });
         }
@@ -258,6 +267,7 @@ namespace Minesweeper
 
         private void Gridview_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs args)
         {
+            if (sweeper.IsEndGame) return;
             var imageView = args.View as ImageView;
             //imageView.SetImageResource(Resource.Drawable);
             var data = sweeper.Flag(args.Position);

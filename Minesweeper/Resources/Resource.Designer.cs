@@ -1450,109 +1450,112 @@ namespace Minesweeper
 			public const int abc_textfield_search_material = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int flag = 2130837578;
+			public const int confused = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int flag_big = 2130837579;
+			public const int flag = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int icon = 2130837580;
+			public const int flag_big = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int icon32x32 = 2130837581;
+			public const int icon = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int m = 2130837582;
+			public const int icon32x32 = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int m1 = 2130837583;
+			public const int m = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int m2 = 2130837584;
+			public const int m1 = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int m3 = 2130837585;
+			public const int m2 = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int m4 = 2130837586;
+			public const int m3 = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int m5 = 2130837587;
+			public const int m4 = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int mine = 2130837588;
+			public const int m5 = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int mine1 = 2130837589;
+			public const int mine = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int mine2 = 2130837590;
+			public const int mine1 = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int mine3 = 2130837591;
+			public const int mine2 = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int mine4 = 2130837592;
+			public const int mine3 = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int mine_explosion = 2130837593;
+			public const int mine4 = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int mine_flagged = 2130837594;
+			public const int mine_explosion = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int mine_normal = 2130837595;
-			
-			// aapt resource value: 0x7f02006c
-			public const int notification_template_icon_bg = 2130837612;
+			public const int mine_flagged = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int sample = 2130837596;
+			public const int mine_normal = 2130837596;
+			
+			// aapt resource value: 0x7f02006d
+			public const int notification_template_icon_bg = 2130837613;
 			
 			// aapt resource value: 0x7f02005d
-			public const int save = 2130837597;
+			public const int sample = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int setting = 2130837598;
+			public const int save = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int smiley = 2130837599;
+			public const int setting = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int smiley1 = 2130837600;
+			public const int smiley = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int smiley2 = 2130837601;
+			public const int smiley1 = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int smiley3 = 2130837602;
+			public const int smiley2 = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int smiley_angry = 2130837603;
+			public const int smiley3 = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int smiley_happy = 2130837604;
+			public const int smiley_angry = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int smiley_waiting = 2130837605;
+			public const int smiley_happy = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int smiley_worrying = 2130837606;
+			public const int smiley_waiting = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int test = 2130837607;
+			public const int smiley_worrying = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int tile = 2130837608;
+			public const int test = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int tile2 = 2130837609;
+			public const int tile = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int tile3 = 2130837610;
+			public const int tile2 = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int tile4 = 2130837611;
+			public const int tile3 = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public const int tile4 = 2130837612;
 			
 			static Drawable()
 			{

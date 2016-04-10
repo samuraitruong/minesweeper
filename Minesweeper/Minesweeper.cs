@@ -6,12 +6,13 @@ namespace Minesweeper
     public struct MinePlace
     {
         public int ArroundMines { get; set; }
+        public bool Confused { get; internal set; }
         public bool DeadPoint { get; internal set; }
         public bool Flagged { get; internal set; }
         public bool HasMine { get; set; }
 
 
-        public bool Openned { get; set; }
+        public bool Open { get; set; }
 
     }
     public class Minesweeper
@@ -74,7 +75,7 @@ namespace Minesweeper
             var count = 0;
             Visit((x, data) =>
             {
-                count += !data.Openned ? 1 : 0;
+                count += !data.Open ? 1 : 0;
             });
 
             return count == mines;
@@ -84,7 +85,13 @@ namespace Minesweeper
             var r = position / this.col;
             var c = position - (r * this.col);
             var data =  minePlaces[r, c];
-            data.Flagged = true;
+            if(data.Confused)
+            {
+                data.Flagged = true;
+                data.Confused = false;
+            }
+            else
+            data.Flagged = !data.Flagged; //toggle flag
             minePlaces[r, c] = data;
             return data;
         }
@@ -154,9 +161,23 @@ namespace Minesweeper
             if (x < 0 || x >= this.row || y < 0 || y >= this.col) return;
 
             var data = minePlaces[x, y];
-            if (data.Openned || data.Flagged) return;
+            if(data.Flagged)
+            {
+                data.Flagged = false;
+                data.Confused = true;
+                minePlaces[x, y] = data;
+                callback(x * this.col + y, data);
+                return;
+            }
 
-            data.Openned = true;
+            if (data.Confused)
+            {
+                data.Flagged = false;
+                data.Confused = false;
+            }
+            if (data.Open || data.Flagged || data.Confused) return;
+
+            data.Open = true;
             if (data.HasMine && initClick)
             {
                 this.IsEndGame = true;
