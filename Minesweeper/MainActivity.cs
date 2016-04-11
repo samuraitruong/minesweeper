@@ -17,7 +17,7 @@ using Android.Support.V4.View;
 
 namespace Minesweeper
 {
-    [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon32x32")]
+    [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : AppCompatActivity
     {
         int bestRecord = int.MaxValue;
@@ -196,6 +196,7 @@ namespace Minesweeper
 
         private void startNewGame()
         {
+            sweeper.NewGame();
             SetSmileIcon(Resource.Drawable.smiley_waiting);
             this.flagCount?.SetText(sweeper.RemainFlags.ToString(), TextView.BufferType.Normal);
             if (watcher.IsRunning) watcher.Reset();
