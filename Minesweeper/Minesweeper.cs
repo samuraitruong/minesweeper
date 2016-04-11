@@ -17,11 +17,26 @@ namespace Minesweeper
     }
     public class Minesweeper
     {
+        private int flags = 0;
         public Minesweeper(int r, int c, int m)
         {
             this.row = r;
             this.col = c;
             this.mines = m;
+            this.flags = mines;
+        }
+        public int RemainFlags {
+            get {
+                int res = mines;
+                Visit((pos, data) =>
+                {
+                    if (data.Flagged || data.Confused)
+                    {
+                        res = res - 1;
+                    }
+                });
+                return res;
+            }
         }
         private MinePlace[,] minePlaces;
         private int row;

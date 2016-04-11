@@ -20,10 +20,18 @@ namespace Minesweeper
 
         public static AppSetting LoadPreferences(Context ctx)
         {
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
-            string xml = prefs.GetString(SETTING_KEY_NAME, string.Empty);
-            if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
-            return xml.DeserializeAsXml<AppSetting>();
+            try
+            {
+
+
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                string xml = prefs.GetString(SETTING_KEY_NAME, string.Empty);
+                if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
+                return xml.DeserializeAsXml<AppSetting>();
+            }catch (Exception ex)
+            {
+            }
+            return new AppSetting() { Level = GameLevel.Easy };
         }
 
         public static void SaveSetting(AppSetting settings, Context ctx)
