@@ -1489,82 +1489,94 @@ namespace Minesweeper
 			public const int m5 = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int mine = 2130837590;
+			public const int m6 = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int mine1 = 2130837591;
+			public const int m7 = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int mine2 = 2130837592;
+			public const int m8 = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int mine3 = 2130837593;
+			public const int mine = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int mine4 = 2130837594;
+			public const int mine1 = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int mine_explosion = 2130837595;
+			public const int mine2 = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int mine_flagged = 2130837596;
+			public const int mine3 = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int mine_normal = 2130837597;
-			
-			// aapt resource value: 0x7f02006f
-			public const int notification_template_icon_bg = 2130837615;
+			public const int mine4 = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int sample = 2130837598;
+			public const int mine_explosion = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int save = 2130837599;
+			public const int mine_flagged = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int setting = 2130837600;
+			public const int mine_normal = 2130837600;
+			
+			// aapt resource value: 0x7f020073
+			public const int notification_template_icon_bg = 2130837619;
 			
 			// aapt resource value: 0x7f020061
-			public const int shape_notification = 2130837601;
+			public const int sample = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int smiley = 2130837602;
+			public const int save = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int smiley1 = 2130837603;
+			public const int setting = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int smiley2 = 2130837604;
+			public const int shape_notification = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int smiley3 = 2130837605;
+			public const int smiley = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int smiley_angry = 2130837606;
+			public const int smiley1 = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int smiley_happy = 2130837607;
+			public const int smiley2 = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int smiley_waiting = 2130837608;
+			public const int smiley3 = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int smiley_worrying = 2130837609;
+			public const int smiley_angry = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int test = 2130837610;
+			public const int smiley_happy = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int tile = 2130837611;
+			public const int smiley_waiting = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int tile2 = 2130837612;
+			public const int smiley_worrying = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int tile3 = 2130837613;
+			public const int test = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int tile4 = 2130837614;
+			public const int tile = 2130837614;
+			
+			// aapt resource value: 0x7f02006f
+			public const int tile2 = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public const int tile3 = 2130837616;
+			
+			// aapt resource value: 0x7f020071
+			public const int tile4 = 2130837617;
+			
+			// aapt resource value: 0x7f020072
+			public const int wrong_flag = 2130837618;
 			
 			static Drawable()
 			{
@@ -1645,6 +1657,9 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0039
 			public const int checkbox = 2131427385;
 			
+			// aapt resource value: 0x7f0b0076
+			public const int chkConstraint = 2131427446;
+			
 			// aapt resource value: 0x7f0b005c
 			public const int chronometer = 2131427420;
 			
@@ -1684,8 +1699,8 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0038
 			public const int expanded_menu = 2131427384;
 			
-			// aapt resource value: 0x7f0b0075
-			public const int gameStatus = 2131427445;
+			// aapt resource value: 0x7f0b0077
+			public const int gameStatus = 2131427447;
 			
 			// aapt resource value: 0x7f0b0054
 			public const int gridView1 = 2131427412;
@@ -1729,17 +1744,17 @@ namespace Minesweeper
 			// aapt resource value: 0x7f0b0058
 			public const int media_actions = 2131427416;
 			
-			// aapt resource value: 0x7f0b0076
-			public const int miProfile = 2131427446;
+			// aapt resource value: 0x7f0b0078
+			public const int miProfile = 2131427448;
 			
-			// aapt resource value: 0x7f0b0077
-			public const int miSetting = 2131427447;
+			// aapt resource value: 0x7f0b0079
+			public const int miSetting = 2131427449;
 			
 			// aapt resource value: 0x7f0b001b
 			public const int middle = 2131427355;
 			
-			// aapt resource value: 0x7f0b0078
-			public const int mnuSaveSetting = 2131427448;
+			// aapt resource value: 0x7f0b007a
+			public const int mnuSaveSetting = 2131427450;
 			
 			// aapt resource value: 0x7f0b0014
 			public const int multiply = 2131427348;
@@ -1893,6 +1908,9 @@ namespace Minesweeper
 			
 			// aapt resource value: 0x7f0b0071
 			public const int tableRow3 = 2131427441;
+			
+			// aapt resource value: 0x7f0b0075
+			public const int tableRow4 = 2131427445;
 			
 			// aapt resource value: 0x7f0b005f
 			public const int text = 2131427423;
@@ -2211,7 +2229,7 @@ namespace Minesweeper
 			public const int abc_toolbar_collapse_description = 2131034130;
 			
 			// aapt resource value: 0x7f050017
-			public const int btn = 2131034135;
+			public const int chkConstraint = 2131034135;
 			
 			// aapt resource value: 0x7f050013
 			public const int status_bar_notification_info_overflow = 2131034131;

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--http://www.creepyed.com/2012/09/windows-8-colors-hex-code/-->
 <resources>
-  <color name="EasyColor">#80DFFF</color>
-  <color name="NormalColor">#00FF00</color>
-  <color name="HardColor">#FF9900</color>
-  <color name="VeryHardColor">#CC3300</color>
-  <color name="ExtremeColor">#993399</color>
-  <color name="CustomColor">#000000</color>
-  
+  <color name="EasyColor">#094AB2</color>
+  <color name="NormalColor">#008A00</color>
+  <color name="HardColor">#DC572E</color>
+  <color name="VeryHardColor">#BF1E4B</color>
+  <color name="ExtremeColor">#A700AE</color>
+  <color name="CustomColor">#2E8DEF</color>
 </resources>

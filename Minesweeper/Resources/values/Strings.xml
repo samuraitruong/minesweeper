@@ -3,5 +3,5 @@
     <string name="Hello">Hello World, Click Me!</string>
     <string name="ApplicationName">Minesweeper</string>
     <string name="DeadMessage">You was killed by an atomic bomb. We was not able to  find you body. please careful next time. Good luck!!!</string>
-  <string name="btn">-</string>
+  <string name="chkConstraint">Auto calculate row to fit with screen height</string>
 </resources>

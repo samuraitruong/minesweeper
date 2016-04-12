@@ -10,10 +10,7 @@ namespace Minesweeper
         public bool DeadPoint { get; internal set; }
         public bool Flagged { get; internal set; }
         public bool HasMine { get; set; }
-
-
         public bool Open { get; set; }
-
     }
     public class Minesweeper
     {
@@ -42,13 +39,11 @@ namespace Minesweeper
         private int row;
         private int col;
         private int mines;
-        
         public bool IsEndGame { get; set; }
         public int Columns { get { return this.col; } }
 
         public void GenereteMines()
         {
-
             minePlaces = new MinePlace[this.row, this.col];
 
             for (int i = 0; i < row; i++)
@@ -97,9 +92,11 @@ namespace Minesweeper
         }
         public MinePlace Flag(int position)
         {
+            
             var r = position / this.col;
             var c = position - (r * this.col);
             var data =  minePlaces[r, c];
+            if (data.Open) return data;
             if(data.Confused)
             {
                 data.Flagged = true;

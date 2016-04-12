@@ -17,7 +17,10 @@ using Android.Support.V4.View;
 
 namespace Minesweeper
 {
-    [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon")]
+    //[Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+    //[Activity(Label = "Minesweeper", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    
     public class MainActivity : AppCompatActivity
     {
         int bestRecord = int.MaxValue;
@@ -73,36 +76,6 @@ namespace Minesweeper
             this.UpdateFlagCount();
             return base.OnPrepareOptionsMenu(menu);
         }
-        //public void DisplayFlagCount(int count)
-        //{
-        //    Bitmap bitmap = Bitmap.CreateBitmap(64, 64, Bitmap.Config.Argb8888);
-
-        //    Canvas canvas = new Canvas(bitmap);
-        //    Paint green = new Paint
-        //    {
-        //        //AntiAlias = true,
-        //        TextSize = 100,
-        //        Color = Color.White
-        //    };
-        //    //green.TextSize = 18.0f;
-        //    green.SetStyle(Paint.Style.FillAndStroke);
-
-        //    //paint.setTextSize(testTextSize);
-        //    //Rect bounds = new Rect();
-        //    //green.GetTextBounds(count.ToString(), 0, count.ToString().Length, bounds);
-
-        //    //float desiredTextSize = 40f * 40  / bounds.Width();
-
-        //    //// Set the paint for that size.
-        //    //green.TextSize = desiredTextSize;
-
-
-        //    float middle = canvas.Width * 0.25f;
-        //    canvas.DrawText(count.ToString(), -40 ,60, green);
-        //    var mnu = this.mainMenu?.FindItem(Resource.Id.flagedCount);
-        //    mnu?.SetIcon(new BitmapDrawable(bitmap));
-        //    //mnu?.SetTitle(count.ToString());
-        //}
         private int ConvertPixelsToDp(float pixelValue)
         {
             var dp = (int)((pixelValue) / Resources.DisplayMetrics.Density);
@@ -124,20 +97,54 @@ namespace Minesweeper
             toolbar.MenuItemClick += Toolbar_MenuItemClick;
 
             SetSupportActionBar(toolbar);
+            SupportActionBar.SetDefaultDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetLogo(Resource.Drawable.icon32x32);
             SupportActionBar.Title = GetText(Resource.String.ApplicationName);
-
+            
 
             MineSweeperFactory factory = new MineSweeperFactory();
             sweeper = factory.Create(this.settings);
             sweeper.NewGame();
-
+            ChangeActionBarColor(this.settings);
             int colWidth = metrics.WidthPixels / sweeper.Columns;
             gridView.NumColumns = sweeper.Columns;
             gridView.Adapter = new MinesweeperAdapter(this, sweeper, colWidth);
             gridView.ItemClick += this.Gridview_ItemClick;
             gridView.LongClickable = true;
             gridView.ItemLongClick += Gridview_ItemLongClick;
+        }
+
+        private void ChangeActionBarColor(AppSetting settings)
+        {
+            string color = "#2E8DEF";
+            var lv = settings.Level;
+            switch (settings.Level)
+            {
+                case GameLevel.Easy:
+                    color = GetText(Resource.Color.EasyColor);
+                    break;
+                case GameLevel.Normal:
+                    color = GetText(Resource.Color.NormalColor);
+                    break;
+                case GameLevel.Hard:
+                    color = GetText(Resource.Color.HardColor);
+                    break;
+                case GameLevel.VeryHard:
+                    color = GetText(Resource.Color.VeryHardColor);
+                    break;
+                case GameLevel.ExtremHard:
+                    color = GetText(Resource.Color.ExtremeColor);
+                    break;
+                case GameLevel.Custom:
+                    color = GetText(Resource.Color.CustomColor);
+                    break;
+                default:
+                    break;
+            }
+            SupportActionBar.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor(color)));
+            View root = ((ViewGroup)FindViewById(Android.Resource.Id.Content)).GetChildAt(0);
+            //root.SetBackgroundColor(Color.ParseColor(color));
+
         }
 
         private void Gridview_ItemClick(object sender, AdapterView.ItemClickEventArgs args)
@@ -173,7 +180,7 @@ namespace Minesweeper
                     bestRecord = Math.Min(sec, bestRecord);
                     SetSmileIcon(Resource.Drawable.smiley_happy);
                     RevealMineField();
-                    ShowMessage("You Won", $"Your record : {sec} seconds\n Your best record: {bestRecord}", gridView);
+                    ShowMessage("You Won", $"Your record : {sec} seconds\nYour best record: {bestRecord}", gridView);
                 }
             }
             this.UpdateFlagCount();
@@ -221,7 +228,14 @@ namespace Minesweeper
 
             if (data.Flagged)
             {
-                img = endGame ? "mine_flagged" : "flag";
+                if (data.HasMine)
+                {
+                    img = endGame ? "mine_flagged" : "flag";
+                }
+                else
+                {
+                    img = endGame ? "wrong_flag" : "flag";
+                }
             }
             if (data.Confused)
             {
@@ -281,13 +295,16 @@ namespace Minesweeper
         
         private void Gridview_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs args)
         {
-            if (sweeper.IsEndGame && sweeper.RemainFlags == 0) return;
+            if (sweeper.IsEndGame || sweeper.RemainFlags == 0) return;
             var imageView = args.View as ImageView;
             //imageView.SetImageResource(Resource.Drawable);
             var data = sweeper.Flag(args.Position);
-            UpdateMinePlace(args.Position, data, sender as GridView);
-            Toast.MakeText(this, "Flagged!!!", ToastLength.Short).Show();
-            UpdateFlagCount();
+            if (!data.Open)
+            {
+                UpdateMinePlace(args.Position, data, sender as GridView);
+                Toast.MakeText(this, "Flagged!!!", ToastLength.Short).Show();
+                UpdateFlagCount();
+            }
         }
 
         private void UpdateFlagCount()

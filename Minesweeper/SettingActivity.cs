@@ -21,6 +21,9 @@ namespace Minesweeper
     [Activity(Label = "Setting", MainLauncher = false, Icon = "@drawable/icon")]
     public class SettingActivity : AppCompatActivity
     {
+        private const int MIN_COLS = 8;
+        private const int MIN_ROWS = 8;
+
         Spinner spinnerRow = null;
         Spinner spinnerCol = null;
         SeekBar seekBarMines = null;
@@ -28,6 +31,8 @@ namespace Minesweeper
         RadioGroup radGroup = null;
         AppSetting settings = null;
         TableLayout customSettingLayout = null;
+        CheckBox chkConstraint = null;
+        Toolbar toolbar = null;
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.Setting, menu);
@@ -40,7 +45,8 @@ namespace Minesweeper
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Setting);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            this.toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+
             SetSupportActionBar(toolbar);
             SupportActionBar.SetLogo(Resource.Drawable.icon32x32);
             SupportActionBar.Title = GetText(Resource.String.ApplicationName);
@@ -50,17 +56,50 @@ namespace Minesweeper
             this.lblMines = FindViewById<TextView>(Resource.Id.textView4);
             this.radGroup = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
             this.customSettingLayout = FindViewById<TableLayout>(Resource.Id.tableLayout1);
+            this.chkConstraint = FindViewById<CheckBox>(Resource.Id.chkConstraint);
 
-            InitSpinner(spinnerRow, 8, 35);
-            InitSpinner(spinnerCol, 8, 35);
+            InitSpinner(spinnerRow, MIN_ROWS, 35);
+            InitSpinner(spinnerCol, MIN_ROWS, 35);
 
             this.spinnerRow.ItemSelected += SpinnerRow_ItemSelected;
             this.spinnerCol.ItemSelected += SpinnerRow_ItemSelected;
             this.seekBarMines.ProgressChanged += SeekBarMines_ProgressChanged;
             this.radGroup.CheckedChange += RadGroup_CheckedChange;
+            DisplayCurrentSetting();
             // Create your application here
         }
 
+        public void DisplayCurrentSetting()
+        {
+            var setting = AppManager.LoadPreferences(this);
+            switch (setting.Level)
+            {
+                case GameLevel.Easy:
+                    this.radGroup.Check(Resource.Id.radioButton1);
+                    break;
+                case GameLevel.Normal:
+                    this.radGroup.Check(Resource.Id.radioButton2);
+                    break;
+                case GameLevel.Hard:
+                    this.radGroup.Check(Resource.Id.radioButton3);
+                    break;
+                case GameLevel.VeryHard:
+                    this.radGroup.Check(Resource.Id.radioButton4);
+                    break;
+                case GameLevel.ExtremHard:
+                    this.radGroup.Check(Resource.Id.radioButton5);
+                    break;
+                case GameLevel.Custom:
+                    this.radGroup.Check(Resource.Id.radCustomSetting);
+                    this.seekBarMines.Max = (int)(setting.Cols * setting.Rows * 0.5);
+                    this.spinnerCol.SetSelection(setting.Cols - MIN_COLS);
+                    this.spinnerRow.SetSelection(setting.Rows - MIN_ROWS);
+                    UpdateRiskRating();
+                    break;
+                default:
+                    break;
+            }
+        }
         private void RadGroup_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
             if(this.radGroup.CheckedRadioButtonId!= Resource.Id.radCustomSetting)
@@ -84,34 +123,46 @@ namespace Minesweeper
             this.lblMines.Text = string.Format("{1}({0:p})", percent, seekBarMines.Progress);
             if (percent <= 0.1)
             {
-                this.lblMines.SetTextColor(Color.Rgb(128, 223, 255));
+                this.lblMines.SetTextColor(Color.ParseColor(GetText(Resource.Color.EasyColor)));
             }
 
             if (percent > 0.1 && percent<=0.2)
             {
-                this.lblMines.SetTextColor(Color.Rgb(0, 255, 0));
+                this.lblMines.SetTextColor(Color.ParseColor(GetText(Resource.Color.NormalColor)));
             }
 
             if (percent > 0.2 && percent <= 0.3)
             {
-                this.lblMines.SetTextColor(Color.Rgb(255, 153, 0));
+                this.lblMines.SetTextColor(Color.ParseColor(GetText(Resource.Color.HardColor)));
             }
 
             if (percent > 0.3 && percent <= 0.4)
             {
-                this.lblMines.SetTextColor(Color.Rgb(204, 51, 0));
+                this.lblMines.SetTextColor(Color.ParseColor(GetText(Resource.Color.VeryHardColor)));
             }
 
             if (percent > 0.4)
             {
-                this.lblMines.SetTextColor(Color.Rgb(153, 51, 153));
+                this.lblMines.SetTextColor(Color.ParseColor(GetText(Resource.Color.ExtremeColor)));
             }
         }
 
         private void SpinnerRow_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
+            var metrics = Resources.DisplayMetrics;
             var row = Convert.ToInt32(spinnerRow.SelectedItem);
             var col = Convert.ToInt32(spinnerCol.SelectedItem);
+
+            if (chkConstraint.Checked && sender == this.spinnerCol)
+            {
+                int w = metrics.WidthPixels / col;
+
+                var h = metrics.HeightPixels - toolbar.Height - w/2;
+                row = h / w;
+                spinnerRow.SetSelection(row - MIN_ROWS);
+            }
+            
+                    
             this.seekBarMines.Max = (int) (row * col * 0.5);
             //recaculate risk.
             UpdateRiskRating();
@@ -136,17 +187,6 @@ namespace Minesweeper
             return base.OnOptionsItemSelected(item);
 
         }
-
-        protected AppSetting LoadPreferences()
-        {
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
-            string xml = prefs.GetString("GAME_SETTING", string.Empty);
-
-            if (string.IsNullOrEmpty(xml)) return new AppSetting() { Level = GameLevel.Easy };
-            return xml.DeserializeAsXml<AppSetting>();
-
-        }
-
         private AppSetting GetUserSettings()
         {
             var currentSetting = new AppSetting();
@@ -175,7 +215,7 @@ namespace Minesweeper
                 default:
                     currentSetting.Level = GameLevel.Custom;
                     currentSetting.Rows = Convert.ToInt32(FindViewById<Spinner>(Resource.Id.spinnerRow).SelectedItem);
-                    currentSetting.Cols = Convert.ToInt32(FindViewById<Spinner>(Resource.Id.spinnerRow).SelectedItem);
+                    currentSetting.Cols = Convert.ToInt32(FindViewById<Spinner>(Resource.Id.spinnerCol).SelectedItem);
                     currentSetting.Mines = this.seekBarMines.Progress;
                     break;
             }
