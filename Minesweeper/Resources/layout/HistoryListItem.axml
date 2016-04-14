@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10px">
+    <ImageView
+        android:src="@drawable/level1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView1"
+        android:gravity="left"
+        android:layout_weight="0.1" />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_weight="0.4"
+        android:textAlignment="viewStart" />
+    <TextView
+        android:id="@+id/tvMine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mine"
+        android:gravity="left"
+        android:layout_weight="0.1"
+        android:textAlignment="textStart"
+        android:layout_gravity="left" />
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:gravity="left"
+        android:layout_weight="0.2"
+        android:textAlignment="0"
+        android:layout_gravity="left" />
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score"
+        android:gravity="left"
+        android:layout_weight="0.2"
+        android:textAlignment="0"
+        android:layout_gravity="left" />
+</LinearLayout>

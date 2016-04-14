@@ -15,19 +15,19 @@ namespace Minesweeper
                     break;
 
                 case GameLevel.Normal:
-                    return new Minesweeper(18, 13, 40);
+                    return new Minesweeper(18, 13, 35);
                     break;
 
                 case GameLevel.Hard:
-                    return new Minesweeper(20, 15, 70);
+                    return new Minesweeper(18, 13, 45);
                     break;
 
                 case GameLevel.VeryHard:
-                    return new Minesweeper(20, 15, 90);
+                    return new Minesweeper(20, 15, 75);
                     break;
 
                 case GameLevel.ExtremHard:
-                    return new Minesweeper(20, 15, 120);
+                    return new Minesweeper(20, 15, 90);
                     break;
 
                 case GameLevel.Custom:
@@ -36,6 +36,29 @@ namespace Minesweeper
 
             }
             throw new Exception("Unknow game setting");
+        }
+
+        public GameLevel DetermineGameLevel(int col, int row, int mine)
+        {
+            var percent = (mine * 1.0) / col * row;
+            if(percent<0.1)
+            {
+                return GameLevel.Easy;
+            }
+
+            if (percent < 0.15)
+            {
+                return GameLevel.Normal;
+            }
+            if (percent < 0.2)
+            {
+                return GameLevel.Hard;
+            }
+            if (percent < 0.25)
+            {
+                return GameLevel.VeryHard;
+            }
+            return GameLevel.ExtremHard;
         }
     }
 }

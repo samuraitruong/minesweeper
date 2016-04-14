@@ -41,6 +41,8 @@ namespace Minesweeper
         private int mines;
         public bool IsEndGame { get; set; }
         public int Columns { get { return this.col; } }
+        public int Rows { get { return this.row; } }
+        public int Mines { get { return this.mines; } }
 
         public void GenereteMines()
         {

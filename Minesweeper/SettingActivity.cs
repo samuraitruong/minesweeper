@@ -181,7 +181,10 @@ namespace Minesweeper
                 case Resource.Id.mnuSaveSetting:
                     this.settings = GetUserSettings();
                     SaveSetting(settings, this);
-                    GoBack();
+                    GoBack<MainActivity>();
+                    break;
+                case Resource.Id.miScoreBoard:
+                    GoBack<ScoreActivity>();
                     break;
             }
             return base.OnOptionsItemSelected(item);
@@ -222,10 +225,10 @@ namespace Minesweeper
 
             return currentSetting;
         }
-        private void GoBack()
+        private void GoBack<T>()
         {
             this.OnNavigateUp();
-            var intent = new Intent(this, typeof(MainActivity));
+            var intent = new Intent(this, typeof(T));
             StartActivity(intent);
         }
     }

@@ -32,6 +32,7 @@ namespace Minesweeper
         Button flagCount = null;
         Stopwatch watcher = new Stopwatch();
         AppSetting settings = null;
+        GameScoreManager mgr;
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.Main, menu);
@@ -83,6 +84,8 @@ namespace Minesweeper
         }
         protected override void OnCreate(Bundle bundle)
         {
+            IoC.SetIoc(this);
+            mgr = new GameScoreManager();
             base.OnCreate(bundle);
             this.settings = LoadPreferences(this);
 
@@ -100,8 +103,6 @@ namespace Minesweeper
             SupportActionBar.SetDefaultDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetLogo(Resource.Drawable.icon32x32);
             SupportActionBar.Title = GetText(Resource.String.ApplicationName);
-            
-
             MineSweeperFactory factory = new MineSweeperFactory();
             sweeper = factory.Create(this.settings);
             sweeper.NewGame();
@@ -181,6 +182,8 @@ namespace Minesweeper
                     SetSmileIcon(Resource.Drawable.smiley_happy);
                     RevealMineField();
                     ShowMessage("You Won", $"Your record : {sec} seconds\nYour best record: {bestRecord}", gridView);
+
+                    mgr.AddGame(this.sweeper, sec);
                 }
             }
             this.UpdateFlagCount();
@@ -209,6 +212,7 @@ namespace Minesweeper
             if (watcher.IsRunning) watcher.Reset();
             else
             {
+                watcher.Reset();
                 watcher.Start();
             }
             sweeper.Visit((pos, data) =>
